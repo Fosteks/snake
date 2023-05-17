@@ -1,5 +1,5 @@
+from random import randint
 import pygame
-import time
 from CONSTANTS import *
 
 
@@ -15,13 +15,21 @@ def msg_gameover(font_style, dis):
 
 
 def check_pos(x, y):
-    if x == -10 or y == -10 or x == dis_width or y == dis_height:
+    if x == -snake_block or y == -snake_block or x == dis_width or y == dis_height:
         return False
     else:
         return True
 
 
-def our_snake(snake_list, dis):
-    pygame.draw.rect(dis, black, [snake_list[0][0], snake_list[0][1], snake_block, snake_block])
+def draw_snake(snake_list, dis):
+    pygame.draw.rect(dis, black, [snake_list[0][0], snake_list[0][1], snake_block, snake_block], border_radius=5)
     for x in snake_list[:-1]:
-        pygame.draw.rect(dis, black, [x[0], x[1], snake_block, snake_block])
+        pygame.draw.rect(dis, black, [x[0], x[1], snake_block, snake_block], border_radius=5)
+
+
+def create_new_food(snake_list):
+    while True:
+        foodx = randint(0, (dis_width - snake_block) // snake_block) * snake_block
+        foody = randint(0, (dis_height - snake_block) // snake_block) * snake_block
+        if not (foodx, foody) in snake_list:
+            return foodx, foody
